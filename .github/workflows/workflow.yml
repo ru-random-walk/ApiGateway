@@ -101,6 +101,6 @@ jobs:
             --project $GKE_PROJECT
           helm upgrade $APP_NAME ./deploy/$APP_NAME/ \
             --set image.tag=$DOCKER_METADATA_OUTPUT_TAGS \
-            --namespace $APP_NAME
+            --namespace $APP_NAME \
             --install \
             --wait
