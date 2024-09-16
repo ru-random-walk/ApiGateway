@@ -4,6 +4,8 @@
 
 replicaCount: 1
 
+springProfile: test
+
 image:
   repository: kryakobess/random-walk-api-gateway
   pullPolicy: Always
