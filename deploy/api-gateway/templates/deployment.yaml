@@ -46,7 +46,7 @@ spec:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: { { .Values.springProfile } }
+              value: {{ .Values.springProfile }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
