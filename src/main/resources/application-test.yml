@@ -1,0 +1,21 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 5000
+        response-timeout: 30s
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: auth-service
+          uri: http://auth-service.auth-service.svc.cluster.local
+          predicates:
+            - Path=/sso/**
+          filters:
+            - RewritePath=/sso/(?<path>.*), /$\{path}
