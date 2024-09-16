@@ -6,6 +6,7 @@ on:
 env:
   APP_NAME: api-gateway
   IMAGE_NAME: random-walk-api-gateway
+  DOCKER_REPO_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 
 jobs:
   build-project-and-push-image:
@@ -101,6 +102,7 @@ jobs:
             --project $GKE_PROJECT
           helm upgrade $APP_NAME ./deploy/$APP_NAME/ \
             --set image.tag=$DOCKER_METADATA_OUTPUT_TAGS \
+            --set image.repository=$DOCKER_REPO_USERNAME/$IMAGE_NAME \
             --namespace $APP_NAME \
             --install \
             --wait
