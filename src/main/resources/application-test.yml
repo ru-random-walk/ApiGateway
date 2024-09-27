@@ -15,14 +15,14 @@ spring:
           enabled: true
       routes:
         - id: auth-service
-          uri: http://auth-service.auth-service.svc.cluster.local
+          uri: http://auth-service.auth-service.svc.cluster.local:8080
           predicates:
             - Path=/auth/**
           filters:
             - RewritePath=/auth/(?<path>.*), /$\{path}
 
         - id: chat-service
-          uri: http://chat-service.chat-service.svc.cluster.local
+          uri: http://chat-service.chat-service.svc.cluster.local:8080
           predicates:
             - Path=/chat/**
           filters:
