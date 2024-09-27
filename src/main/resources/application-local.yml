@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8090
   forward-headers-strategy: framework
 
 spring:
@@ -15,15 +15,8 @@ spring:
           enabled: true
       routes:
         - id: auth-service
-          uri: http://auth-service.auth-service.svc.cluster.local
+          uri: http://localhost:8080
           predicates:
             - Path=/auth/**
           filters:
             - RewritePath=/auth/(?<path>.*), /$\{path}
-
-        - id: chat-service
-          uri: http://chat-service.chat-service.svc.cluster.local
-          predicates:
-            - Path=/chat/**
-          filters:
-            - RewritePath=/chat/(?<path>.*), /$\{path}
