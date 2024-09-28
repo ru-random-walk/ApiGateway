@@ -1,0 +1,26 @@
+springdoc:
+  enable-native-support: true
+  api-docs:
+    groups:
+      enabled: true
+    enabled: true
+  group-configs:
+    - group: chat-service
+      paths-to-match:
+        - /chat/**
+      display-name: ChatService
+
+    - group: auth-service
+      paths-to-match:
+        - /auth/**
+      display-name: AuthService
+
+  swagger-ui:
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    url: /v3/api-docs
+    urls:
+      - url: /auth/v3/api-docs
+        name: AuthService
+      - url: /chat/v3/api-docs
+        name: ChatService
