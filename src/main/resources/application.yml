@@ -15,6 +15,16 @@ springdoc:
         - /auth/**
       display-name: AuthService
 
+    - group: club-service
+      paths-to-match:
+        - /club/**
+      display-name: ClubService
+
+    - group: matcher-service
+      paths-to-match:
+        - /matcher/**
+      display-name: MatcherService
+
   swagger-ui:
     path: /swagger-ui.html
     config-url: /v3/api-docs/swagger-config
@@ -24,3 +34,7 @@ springdoc:
         name: AuthService
       - url: /chat/v3/api-docs
         name: ChatService
+      - url: /matcher/v3/api-docs
+        name: MatcherService
+      - url: /club/v3/api-docs
+        name: ClubService
