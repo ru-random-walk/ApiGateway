@@ -26,3 +26,17 @@ spring:
             - Path=/chat/**
           filters:
             - RewritePath=/chat/(?<path>.*), /$\{path}
+
+        - id: club-service
+          uri: http://club-service.club-service.svc.cluster.local:8080
+          predicates:
+            - Path=/club/**
+          filters:
+            - RewritePath=/club/(?<path>.*), /$\{path}
+
+        - id: matcher-service
+          uri: http://matcher-service.matcher-service.svc.cluster.local:8080
+          predicates:
+            - Path=/matcher/**
+          filters:
+            - RewritePath=/matcher/(?<path>.*), /$\{path}
