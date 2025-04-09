@@ -39,6 +39,11 @@ spring:
           filters:
             - RewritePath=/club/(?<path>.*), /$\{path}
 
+        - id: graphiql
+          uri:  http://club-service.club-service.svc.cluster.local:8080/graphiql
+          predicates:
+            - Path=/g
+
         - id: matcher-service
           uri: http://matcher-service.matcher-service.svc.cluster.local:8080
           predicates:
