@@ -1,0 +1,541 @@
+{
+	"info": {
+		"_postman_id": "e45d1c4c-5193-403e-85bf-827f086c365c",
+		"name": "Random Walk",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22556947",
+		"_collection_link": "https://lively-rocket-730406.postman.co/workspace/Random-Walk-Postman-API-Workspa~dc669ec2-3223-4a7c-9077-3c5f70b4e565/collection/22556947-e45d1c4c-5193-403e-85bf-827f086c365c?action=share&source=collection_link&creator=22556947"
+	},
+	"item": [
+		{
+			"name": "Auth service",
+			"item": [
+				{
+					"name": "POST Token [Token Exchange]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа равен 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Устанавливаем значение переменной окружения refresh_token\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"refresh_token\", jsonData.refresh_token);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{client_login}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{client_password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "urn:ietf:params:oauth:grant-type:token-exchange",
+									"type": "text"
+								},
+								{
+									"key": "subject_token_provider",
+									"value": "google",
+									"type": "text"
+								},
+								{
+									"key": "subject_token",
+									"value": "ya29.a0AeXRPp7LMwV9E_rpKNbvmDfwViq4--yLycG3dxlSVs-OgZS0RE1-O4gmD6UwfxxQAdtsHiiAQqXO-A6PkFNog_NErTH_H-LTIAqw3eVziyefPuEzgVVcPG9HdRvFBMZUl1MqHb3psXAAK635bOO459ZLzxo6XAtCyqFUpY1OaCgYKAeISARISFQHGX2MihqY-WmhTS4tefmvfk0VaaA0175",
+									"type": "text"
+								},
+								{
+									"key": "subject_token_type",
+									"value": "Access Token",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{auth_service_url}}/token",
+							"host": [
+								"{{auth_service_url}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Token [Refresh Token]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа равен 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Устанавливаем значение переменной refresh_token\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"refresh_token\", jsonData.refresh_token);",
+									"});",
+									"",
+									"pm.test(\"Устанавливаем значение переменной Token (access_token)\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"Token\", jsonData.access_token);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client_password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client_login}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh_token}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{auth_service_url}}/token",
+							"host": [
+								"{{auth_service_url}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{auth_service_url}}/users?ids=287d4dad-a35b-4c88-ba1e-6485d2be1ba2,cda8f40e-1d47-4fec-9567-35a039a73ed3&page=0&size=10",
+							"host": [
+								"{{auth_service_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "287d4dad-a35b-4c88-ba1e-6485d2be1ba2,cda8f40e-1d47-4fec-9567-35a039a73ed3"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat service",
+			"item": [
+				{
+					"name": "Chat list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{chat_service_url}}/chat/list?page=0&size=30&memberUsername=287d4dad-a35b-4c88-ba1e-6485d2be1ba2",
+							"host": [
+								"{{chat_service_url}}"
+							],
+							"path": [
+								"chat",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "30"
+								},
+								{
+									"key": "memberUsername",
+									"value": "287d4dad-a35b-4c88-ba1e-6485d2be1ba2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Message list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{chat_service_url}}/message/list?chatId=b320a0da-0594-4a23-b072-7904f8d30dbe&page=0&size=20&sort=sent_at,desc",
+							"host": [
+								"{{chat_service_url}}"
+							],
+							"path": [
+								"message",
+								"list"
+							],
+							"query": [
+								{
+									"key": "chatId",
+									"value": "b320a0da-0594-4a23-b072-7904f8d30dbe"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sort",
+									"value": "sent_at,desc"
+								},
+								{
+									"key": "from",
+									"value": "18:00 22-09-2024",
+									"disabled": true
+								},
+								{
+									"key": "to",
+									"value": "20:00 22-09-2024",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin UI",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{chat_service_url}}/",
+							"host": [
+								"{{chat_service_url}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Websocket some info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJraWQiOiJyd19rZXkiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODEiLCJjbGllbnRfaWQiOiJtYWtzbW9sY2giLCJhdXRob3JpdGllcyI6WyJBRE1JTiJdLCJleHAiOjE3MzAwNjA0NjUsInN1YiI6IjcyN2ZjODk2LTdiZGYtNGE0Ny1hNTQ5LTk0MzM5N2NiOWZhZiJ9.FgC9JXL437Wqs2c8W1OWsm4H5gaqmV-o1-NgF153x1Q_2SBXoHhTrxSHYYejUInk-mZHvuknikCqRXXDX8dZRsivOwUHHiC4D7tt2Y3bVmIlwUZ5J7qcnk4X9bdLbDHOikBSXSUQvZsHpwa1T6MCLw46tJPnR2Z0wdL6RWk154iaIvPXdB_9kfS0dthMiNC-n-kEBY6tKLFj-lVTncvapx1T2yFI4G80iHllOvwPZjWyLXeMGSH1KchLvDTpe0lBICMWJn1TbqGkJijUJ_d_7GAOxF_zw9u1O6yaS7GOc0t8-6g94-zi7D_HudjNjjiskIsm6hnQM8DjEI0s-x8eAg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{chat_service_url}}/ws/info?t=1730059077469",
+							"host": [
+								"{{chat_service_url}}"
+							],
+							"path": [
+								"ws",
+								"info"
+							],
+							"query": [
+								{
+									"key": "t",
+									"value": "1730059077469"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Private Chat Event - Kafka Integration Test",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"chatMember1\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"chatMember2\": \"97c5f64b-af2b-4743-8e1c-c82da31da531\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{chat_service_url}}/test/create-private-chat-event",
+							"host": [
+								"{{chat_service_url}}"
+							],
+							"path": [
+								"test",
+								"create-private-chat-event"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Club service",
+			"item": [
+				{
+					"name": "GrapqhQL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "# mutation createClub {\n#     createClub(name: \"Anasdjcjjcjasdcjasdjcasdcaskcjaksdc_._.(.-.)\") {\n#         id\n#         name\n#         members {\n#             id\n#         }\n#     }\n# }\n\n# query getClubApprovements {\n#     getClub(clubId: \"f5f1794c-39d4-4803-9267-e04f25168e2a\") {\n#         name\n#         approvements {\n#             id\n#             type\n#             data {\n#                 ... on FormApprovementData {\n#                     questions {\n#                         text\n#                         answerOptions\n#                         answerType\n#                         correctOptionNumbers\n#                     }\n#                 }\n#                 ... on MembersConfirmApprovementData {\n#                     requiredConfirmationNumber\n#                 }\n#             }\n#         }\n#     }\n# }\n\n# mutation addForm {\n#     addClubApprovementForm(\n#         clubId: \"f5f1794c-39d4-4803-9267-e04f25168e2a\"\n#         form: {\n#             questions: [\n#                 {\n#                     text: \"Where one?\"\n#                     answerOptions: [\"1323\", \"1\", \"one(two!)\"]\n#                     correctOptionNumbers: [1]\n#                     answerType: SINGLE\n#                 }\n#                 {\n#                     text: \"What numbers bigger than 0\"\n#                     answerOptions: [\"213\", \"-1\", \"-891234\", \"0.1\"]\n#                     correctOptionNumbers: [0, 3]\n#                     answerType: MULTIPLE\n#                 }\n#             ]\n#         }\n#     ) {\n#         id\n#     }\n# }\n\n# mutation addMembersConfirm {\n#     addClubApprovementMembersConfirm (\n#         clubId: \"4cc48ca9-86e6-4af5-9517-180d82cd4fee\"\n#         membersConfirm: {\n#             requiredConfirmationNumber: 3\n#         }\n#     ) {\n#         id\n#     }\n# }\n\n# mutation addFormAnswer {\n#     createApprovementAnswerForm(\n#         approvementId: \"86ff3143-ae50-49eb-a24e-05fc5c920b71\"\n#         formAnswer: {\n#             questionAnswers: [\n#                 {\n#                     optionNumbers: [0]\n#                 }\n#                 {\n#                     optionNumbers: []\n#                 }\n#             ]\n#         }\n#     ) {\n#         id\n#         status\n#     }\n# }\n\n# query getMyAnswers {\n#     getUserAnswers(userId: \"303e105e-650a-4b94-93ff-6f5292a7e793\") {\n#         id\n#         status\n#         approvement {\n#             id\n#         }\n#         data {\n#             ... on FormAnswerData {\n#                 questionAnswers{\n#                     optionNumbers\n#                 }\n#             }\n#         }\n#     }\n# }\n\n# mutation setAnswerStatusToSent {\n#     setAnswerStatusToSent(answerId: \"02586b3c-839f-4359-a10b-c23b6c0bded2\") {\n#         id\n#         status\n#         approvement {\n#             data {\n#                 ... on FormApprovementData {\n#                     questions {\n#                         text\n#                         correctOptionNumbers\n#                     }\n#                 }\n#             }\n#         }\n#     }\n# }\n\n# mutation addMember {\n#     addMemberInClub(\n#         memberId: \"12e40ee3-b6d2-416f-9af8-ad153b8c1936\"\n#         clubId: \"1811b8f4-42f9-4939-9d77-cef5135b04d9\"\n#     ) {\n#         id\n#         role\n#     }\n# }\n\n# query getClubs {\n#     getUserClubs(\n#         userId: \"287d4dad-a35b-4c88-ba1e-6485d2be1ba2\"\n#         pagination: {\n#             page: 0,\n#             size: 2\n#         }\n#     ) {\n#         id\n#         name\n#         members {\n#             id\n#         }\n#     }\n# }\n\nquery getMyAnswers {\n    getUserAnswers(\n        userId: \"287d4dad-a35b-4c88-ba1e-6485d2be1ba2\"\n    ) {\n        id\n        approvement {\n            club {\n                id\n            }\n        }\n        status\n        data {\n            ... on FormAnswerData {\n                questionAnswers {\n                    optionNumbers\n                }\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{club_service_url}}/graphql",
+							"host": [
+								"{{club_service_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Token",
+			"value": "eyJ0eXAiOiJKV1QiLCJraWQiOiJyd19rZXkiLCJhbGciOiJSUzI1NiJ9"
+		},
+		{
+			"key": "refresh_token",
+			"value": "1fc8fe0d-5bf4-44e8-9a2d-de83204deba4"
+		},
+		{
+			"key": "auth_service_url",
+			"value": "localhost:8081",
+			"type": "string"
+		},
+		{
+			"key": "chat_service_url",
+			"value": "localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "client_login",
+			"value": "TEST_CLIENT",
+			"type": "string"
+		},
+		{
+			"key": "client_password",
+			"value": "7vgDEJPHd6bQYa",
+			"type": "string"
+		},
+		{
+			"key": "club_service_url",
+			"value": "http://random-walk.ru/club",
+			"type": "string"
+		}
+	]
+}
