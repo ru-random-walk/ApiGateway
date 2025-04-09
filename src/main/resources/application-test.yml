@@ -2,6 +2,11 @@ server:
   port: 80
 
 spring:
+  graphql:
+    graphiql:
+      enabled:
+        true
+    url: http://club-service.club-service.svc.cluster.local:8080/graphiql
   application:
     name: ApiGateway
   cloud:
