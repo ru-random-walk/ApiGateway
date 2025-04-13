@@ -54,3 +54,10 @@ spring:
             - Path=/matcher/**
           filters:
             - RewritePath=/matcher/(?<path>.*), /$\{path}
+
+        - id: twitter-service
+          uri: http://twitter-service.twitter-service.svc.cluster.local:8080
+          predicates:
+            - Path=/twitter/**
+          filters:
+            - RewritePath=/twitter/(?<path>.*), /$\{path}
