@@ -25,6 +25,11 @@ springdoc:
         - /matcher/**
       display-name: MatcherService
 
+    - group: twitter-service
+      paths-to-match:
+        - /twitter/**
+      display-name: TwitterService
+
   swagger-ui:
     path: /swagger-ui.html
     config-url: /v3/api-docs/swagger-config
@@ -38,3 +43,5 @@ springdoc:
         name: MatcherService
       - url: /club/v3/api-docs
         name: ClubService
+      - url: /twitter/v3/api-docs
+        name: TwitterService
