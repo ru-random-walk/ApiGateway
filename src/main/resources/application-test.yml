@@ -6,6 +6,17 @@ spring:
     name: ApiGateway
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            maxAge: 3600
       httpclient:
         connect-timeout: 5000
         response-timeout: 30s
