@@ -9,7 +9,8 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOrigins:
+              - "*"
             allowedMethods:
               - GET
               - POST
